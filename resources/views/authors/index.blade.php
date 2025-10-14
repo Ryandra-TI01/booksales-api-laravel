@@ -7,8 +7,9 @@
 </head>
 <body class="bg-light p-4">
   <div class="container">
-    <h2 class="text-center mb-4">Daftar Authors</h2>
-    <table class="table table-bordered table-striped align-middle">
+    <h2 class="text-center mb-4">Daftar Penulis</h2>
+
+    <table class="table table-bordered table-striped align-middle shadow-sm">
       <thead class="table-dark">
         <tr>
           <th>ID</th>
@@ -20,14 +21,16 @@
       <tbody>
         @foreach($authors as $author)
           <tr>
-            <td>{{ $author['id'] }}</td>
-            <td>{{ $author['name'] }}</td>
-            <td><img src="{{ asset('images/' . $author['photo']) }}" alt="{{ $author['name'] }}" width="60"></td>
-            <td>{{ $author['bio'] }}</td>
+            <td>{{ $author->id }}</td>
+            <td>{{ $author->name }}</td>
+            <td><img src="{{ asset('images/' . $author->photo) }}" width="60" alt="{{ $author->name }}"></td>
+            <td>{{ $author->bio }}</td>
           </tr>
         @endforeach
       </tbody>
     </table>
+
+    <a href="/books" class="btn btn-primary mt-3">Lihat Data Buku</a>
   </div>
 </body>
 </html>
