@@ -31,5 +31,36 @@ class AuthorController extends Controller
         }
         return $this->successResponse(new AuthorResource($author), 'Author created successfully',201);
     }
+    public function show($id)
+    {
+        $author = Author::find($id);
+        if (!$author) {
+            return $this->errorResponse('Author not found',null, 404);
+        }
+        return $this->successResponse(new AuthorResource($author), 'Author retrieved successfully');
+    }
+    public function update(Request $request, $id)
+    {
+        $author = Author::find($id);
+        if (!$author) {
+            return $this->errorResponse('Author not found',null, 404);
+        }
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'photo' => 'sometimes|nullable|string',
+            'bio' => 'sometimes|nullable|string',
+        ]);
+        $author->update($validated);
+        return $this->successResponse(new AuthorResource($author), 'Author updated successfully');
+    }
+    public function destroy($id)
+    {
+        $author = Author::find($id);
+        if (!$author) {
+            return $this->errorResponse('Author not found',null, 404);
+        }
+        $author->delete();
+        return $this->successResponse(null, 'Author deleted successfully', 200);
+    }
 
 }

@@ -30,4 +30,34 @@ class GenreController extends Controller
         }
         return $this->successResponse(new GenreResource($genre), 'Genre created successfully',201);
     }
+    public function show($id)
+    {
+        $genre = Genre::find($id);
+        if (!$genre) {
+            return $this->errorResponse('Genre not found',null, 404);
+        }
+        return $this->successResponse(new GenreResource($genre), 'Genre retrieved successfully');
+    }
+    public function update(Request $request, $id)
+    {
+        $genre = Genre::find($id);
+        if (!$genre) {
+            return $this->errorResponse('Genre not found',null, 404);
+        }
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|nullable|string',
+        ]);
+        $genre->update($validated);
+        return $this->successResponse(new GenreResource($genre), 'Genre updated successfully');
+    }
+    public function destroy($id)
+    {
+        $genre = Genre::find($id);
+        if (!$genre) {
+            return $this->errorResponse('Genre not found',null, 404);
+        }
+        $genre->delete();
+        return $this->successResponse(null, 'Genre deleted successfully', 200);
+    }
 }
