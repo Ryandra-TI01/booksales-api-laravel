@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -45,6 +46,10 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function Transactions()
+    {
+        return $this->hasMany(Transaction::class, 'customer_id');
     }
     public function getJWTIdentifier()
     {
